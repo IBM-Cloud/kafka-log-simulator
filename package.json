@@ -1,0 +1,21 @@
+{
+  "name": "kafka-log-parser",
+  "version": "1.0.0",
+  "description": "Simulate delivery of log messages to IBM Message Hub using Apache Kafka",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "IBM",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "commander": "^2.15.1",
+    "line-by-line": "^0.1.6",
+    "node-rdkafka": "^2.3.2"
+  },
+  "devDependencies": {
+    "@types/line-by-line": "^0.1.2",
+    "@types/node": "^8.0.0",
+    "typescript": "^2.8.3"
+  }
+}
