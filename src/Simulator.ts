@@ -107,7 +107,7 @@ export class Simulator {
     const body = JSON.stringify(messages[i].body);
 
     console.log(`Sending ${body}`);
-    // this.producer.produce(topic, 0, new Buffer(body));
+    this.producer.produce(topic, 0, new Buffer(body));
 
     // re-schedule based on next message's timestamp
     if (messages[i + 1]) {
