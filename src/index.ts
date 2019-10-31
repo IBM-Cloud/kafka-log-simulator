@@ -39,22 +39,26 @@ async function streamMessages() {
     'metadata.broker.list': program.brokerList,
     'security.protocol': 'sasl_ssl',
     'sasl.mechanisms': 'PLAIN',
-    'sasl.username': program.apiKey.substring(0, 16),
-    'sasl.password': program.apiKey.substring(16),
+    'sasl.username': 'token',
+    'sasl.password': program.apiKey,
     'dr_cb': true,
     'queue.buffering.max.messages': 2000000
   }, program.rate);
 
   console.log('-- Connecting to Message Hub --')
-  const connected = await simulator.connect();
+  try {
+    const connected = await simulator.connect();
 
-  if(connected) {
-    console.log('-- Connected --')
-    console.log('-- Parsing File --')
-    const messages = await simulator.parse(program.file, parser);
+    if(connected) {
+      console.log('-- Connected --')
+      console.log('-- Parsing File --')
+      const messages = await simulator.parse(program.file, parser);
 
-    console.log('-- Sending Messages --')
-    simulator.sendMessages(messages, program.topic)
+      console.log('-- Sending Messages --')
+      simulator.sendMessages(messages, program.topic)
+    }
+  } catch (err) {
+    console.log(err);
   }
 }
 

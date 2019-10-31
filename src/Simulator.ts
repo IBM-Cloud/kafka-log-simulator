@@ -52,13 +52,12 @@ export class Simulator {
    */
   public connect(): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.producer.connect({});
-
       this.producer.on('ready', () => resolve(true));
       this.producer.on('error', (error) => {
         console.log(`Connection error ${error}`);
         reject(false)
       });
+      this.producer.connect({});
     });
   }
 
@@ -102,18 +101,30 @@ export class Simulator {
    * @param start Index in message list to begin sending messages
    */
   sendMessages(messages: Message[], topic: string, start?: number) {
-    const i = start || 0;
+    let i = start || 0;
 
-    const body = JSON.stringify(messages[i].body);
+    const sendWithNoDelay = (this.rate == 0);
 
-    console.log(`Sending ${body}`);
-    this.producer.produce(topic, 0, new Buffer(body));
+    do {
+      if (i % 10000 === 0) {
+        console.log(`Sent ${Math.round(i * 100 / messages.length)}% (${i}/${messages.length})`);
+      }
 
-    // re-schedule based on next message's timestamp
-    if (messages[i + 1]) {
-      const delay = messages[i + 1].time - messages[i].time;
-      setTimeout(() => this.sendMessages(messages, topic, i + 1), delay / this.rate);
-    }
+      const body = JSON.stringify(messages[i].body);
+
+      // console.log(`Sending ${body}`);
+      this.producer.produce(topic, 0, Buffer.from(body));
+
+      i = i + 1;
+
+      if (!sendWithNoDelay) {
+        // re-schedule based on next message's timestamp
+        if (messages[i]) {
+          const delay = messages[i].time - messages[i - 1].time;
+          setTimeout(() => this.sendMessages(messages, topic, i), delay / this.rate);
+        }
+      }
+    } while (messages[i] && sendWithNoDelay)
   }
 
   /**
