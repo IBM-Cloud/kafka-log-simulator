@@ -1,6 +1,6 @@
 # Kafka Log Simulator
 
-This application simulates delivery of log messages to IBM Message Hub using Apache Kafka. It is intended to be used with the solution tutorial [Big data log analytics with Streaming Analytics and SQL](https://console.bluemix.net/docs/tutorials/big-data-log-analytics.html#big-data-logs-with-streaming-analytics-and-sql).
+This application simulates delivery of log messages to IBM Message Hub using Apache Kafka. It is intended to be used with the solution tutorial [Big data log analytics with Streaming Analytics and SQL](https://cloud.ibm.com/docs/solution-tutorials?topic=solution-tutorials-big-data-log-analytics).
 
 ## Usage
 
