@@ -1,6 +1,6 @@
 # Kafka Log Simulator
 
-This application simulates delivery of log messages to IBM Message Hub using Apache Kafka. It is intended to be used with the solution tutorial [Big data log analytics with Streaming Analytics and SQL](https://cloud.ibm.com/docs/solution-tutorials?topic=solution-tutorials-big-data-log-analytics).
+This application simulates delivery of log messages to IBM Event Streams using Apache Kafka. It is intended to be used with the solution tutorial [Big data log analytics with Streaming Analytics and SQL](https://cloud.ibm.com/docs/solution-tutorials?topic=solution-tutorials-big-data-log-analytics).
 
 ## Usage
 
@@ -11,11 +11,11 @@ Usage: index --file <file> --parser <name> (--messages | --csv) --broker-list <b
 
     -f, --file [file]               Log file to create messages from
     -p, --parser [parser]           File parser
-    -m, --messages [parser]         Stream log messages to Message Hub
+    -m, --messages [parser]         Stream log messages to Event Streams
     -c, --csv                       Stream log messages to CSV file
-    -b, --broker-list [brokerList]  Message Hub brokers list (multiple brokers comma separated)
-    -k, --api-key [apiKey]          Message Hub API key
-    -t, --topic [topic]             Message Hub topic
+    -b, --broker-list [brokerList]  Event Streams brokers list (multiple brokers comma separated)
+    -k, --api-key [apiKey]          Event Streams API key
+    -t, --topic [topic]             Event Streams topic
     -r, --rate [rate]               Adjusts the message send rate
     -h, --help                      output usage information
 ```
@@ -35,7 +35,7 @@ Convert an Apache web server log file to CSV.
 node dist/index.js --file /Users/ibmcloud/Downloads/NASA_access_log_Jul95 --parser httpd --csv --out-file /Users/ibmcloud/Downloads/NASA_access_log_Jul95.csv
 ```
 
-Stream an Apache web server log file to Message Hub.
+Stream an Apache web server log file to Event Streams.
 
 ```sh
 node dist/index.js --file /Users/vanstaub/Downloads/NASA_access_log_Jul95 --parser httpd --broker-list "kafka02-prod02.messagehub.services.us-south.bluemix.net:9093" --api-key 0ErVFpnxvRqdfsSDDWQjymc1sdfDF7iRfGsvSv3cp2OOlJ4m --topic webserver --rate 100

@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as Kafka from 'node-rdkafka';
-import * as LineByLineReader from "line-by-line";
+import LineByLineReader from "line-by-line";
 
 export interface Parser {
   /**
@@ -19,7 +19,7 @@ export interface Parser {
 export class Message {
   /**
    * Creates a new message.
-   * @param body Message body sent to Message Hub
+   * @param body Message body sent to Event Streams
    * @param time Message time in milliseconds; defaults to time this object created if omitted
    */
   constructor(public body: any, public time: number = new Date().getTime()) {
@@ -33,7 +33,7 @@ export class Simulator {
   rate: number;
 
   /**
-   * Creates a log file simulator to send messages to Message Hub.
+   * Creates a log file simulator to send messages to Event Streams.
    * @param producerOptions Options for Kafka producer see node-rdkafka
    * @param rate Speed to send messages, calculated by dividing delay by rate
    * @param encoding File encoding, defaults to UTF8
@@ -48,12 +48,12 @@ export class Simulator {
   }
 
   /**
-   * Connects to Message Hub.
+   * Connects to Event Streams.
    */
   public connect(): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.producer.on('ready', () => resolve(true));
-      this.producer.on('error', (error) => {
+      this.producer.on('event.error', (error) => {
         console.log(`Connection error ${error}`);
         reject(false)
       });
@@ -95,8 +95,8 @@ export class Simulator {
   }
 
   /**
-   * Sends messages to Message Hub using Kafka producer.
-   * @param messages Message list to send to Message Hub
+   * Sends messages to Event Streams using Kafka producer.
+   * @param messages Message list to send to Event Streams
    * @param topic Destination topic for messages
    * @param start Index in message list to begin sending messages
    */

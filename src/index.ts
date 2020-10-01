@@ -1,17 +1,17 @@
-import * as program from 'commander';
+import program from 'commander';
 import * as Parsers from "./parsers/Parsers";
 import { Simulator, Message, Parser } from './Simulator';
 
 program
   .usage('--file <file> --parser <name> (--messages | --csv) --broker-list <brokers> --api-key <secret> --topic <name> --rate [speed]')
-  .option('-m, --messages', 'Stream log messages to Message Hub')
+  .option('-m, --messages', 'Stream log messages to Event Streams')
   .option('-c, --csv', 'Stream log messages to CSV file')
   .option('-f, --file [file]', 'Input log file')
   .option('-o, --out-file [outFile]', 'Input log file')
   .option('-p, --parser [parser]', 'File parser')
-  .option('-b, --broker-list [brokerList]', 'Message Hub brokers list (multiple brokers comma separated)')
-  .option('-k, --api-key [apiKey]', 'Message Hub API key')
-  .option('-t, --topic [topic]', 'Message Hub topic')
+  .option('-b, --broker-list [brokerList]', 'Event Streams brokers list (multiple brokers comma separated)')
+  .option('-k, --api-key [apiKey]', 'Event Streams API key')
+  .option('-t, --topic [topic]', 'Event Streams topic')
   .option('-r, --rate [rate]', 'Adjusts the message send rate')
   .parse(process.argv);
 
@@ -37,7 +37,7 @@ async function streamMessages() {
   const simulator = new Simulator({
     'client.id': 'kafka',
     'metadata.broker.list': program.brokerList,
-    'security.protocol': 'sasl_ssl',
+    'security.protocol': 'SASL_SSL',
     'sasl.mechanisms': 'PLAIN',
     'sasl.username': 'token',
     'sasl.password': program.apiKey,
@@ -45,7 +45,7 @@ async function streamMessages() {
     'queue.buffering.max.messages': 2000000
   }, program.rate);
 
-  console.log('-- Connecting to Message Hub --')
+  console.log('-- Connecting to Event Streams --')
   try {
     const connected = await simulator.connect();
 
