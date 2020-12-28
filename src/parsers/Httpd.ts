@@ -11,13 +11,13 @@ export class HttpdParser implements Parser {
     // convert the log record to JSON format
     const body = {
       host: tokens[0],
-      timestamp: tokens[3].substring(1),
+      time_stamp: tokens[3].substring(1),
       request: tokens[6],
       responseCode: parseInt(tokens[8]),
       bytes: parseInt(tokens[9]) 
     }
 
-    const time = body.timestamp.split(':');
+    const time = body.time_stamp.split(':');
 
     const second = parseInt(time[3]) * 1000;
     const minute = parseInt(time[2]) * 1000 * 60;
